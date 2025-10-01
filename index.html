@@ -12,9 +12,11 @@
     <h2>Response Data from Your Website:</h2>
     <pre id="responseData"></pre>  <!-- Where we show the data -->
 
+    <h3>Next Refresh in: <span id="timer">60</span> seconds</h3> <!-- Timer countdown -->
+
     <script>
-        document.getElementById('sendRequest').addEventListener('click', function() {
-            // Send a POST request to your website's API endpoint
+        // Function to send the request and get the data
+        function sendRequest() {
             fetch('https://gitkraken.dev/api/organizations/68d29998bced52677d0f6e64/workspaces', {
                 method: 'POST',
                 headers: {
@@ -38,13 +40,40 @@
             .then(response => response.json())  // Parse JSON response from the server
             .then(data => {
                 // If data is received, display it on the page
-                console.log('Response from your website:', data);  // Log the response
+                console.log('Response from your website:', data);
                 document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);  // Show it on the page
             })
             .catch(error => {
                 console.error('Error:', error);  // If an error occurs, log it
             });
-        });
+        }
+
+        // Function to start the timer and update every second
+        function startTimer() {
+            let countdown = 60; // Start countdown at 60 seconds
+            const timerElement = document.getElementById('timer');
+            
+            // Update the timer every second
+            const interval = setInterval(() => {
+                timerElement.textContent = countdown;
+                countdown--;
+                
+                // When the timer reaches zero, send the request again and reset the timer
+                if (countdown < 0) {
+                    sendRequest();  // Send the request to your website
+                    countdown = 60; // Reset the timer to 60 seconds
+                }
+            }, 1000); // Update every 1000ms (1 second)
+        }
+
+        // Initial request when the page loads
+        sendRequest();
+        
+        // Start the timer as soon as the page is loaded
+        startTimer();
+        
+        // If you want to send a request manually too, uncomment the next line:
+        // document.getElementById('sendRequest').addEventListener('click', sendRequest);
     </script>
 </body>
 </html>
